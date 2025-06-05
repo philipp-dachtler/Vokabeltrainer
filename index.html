@@ -4,18 +4,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vokabeltrainer</title>
-  <link rel="manifest" href="/manifest.json">
-  <link rel="icon" href="/icon-512x512.png">
-  <link rel="stylesheet" href="/style.css">
+  <!-- PWA-Konfiguration -->
+  <link rel="manifest" href="/Vokabeltrainer/manifest.json">
+  <link rel="icon" href="/Vokabeltrainer/icon-512x512.png">
   <meta name="theme-color" content="#6d28d9">
+  <!-- Styles -->
+  <link rel="stylesheet" href="/Vokabeltrainer/style.css">
+  <!-- Apple PWA-Meta-Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Vokabeltrainer">
+  <link rel="apple-touch-icon" href="/Vokabeltrainer/icon-512x512.png">
 </head>
 <body>
-  <div id="app"></div>
-  <script src="/app.js"></script>
+  <div id="app">
+    <!-- Fallback, falls JavaScript nicht lädt -->
+    <div class="loading">
+      <h1>Vokabeltrainer</h1>
+      <p>Lade App...</p>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="/Vokabeltrainer/app.js"></script>
+  
+  <!-- Service Worker mit Error-Handling -->
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js');
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/Vokabeltrainer/service-worker.js')
+          .then(reg => console.log('Service Worker registriert!', reg))
+          .catch(err => console.error('Service Worker Fehler:', err));
+      });
     }
   </script>
+
+  <!-- Fallback: Warnung bei deaktiviertem JavaScript -->
+  <noscript>
+    <div class="noscript-warning">
+      <h2>JavaScript benötigt</h2>
+      <p>Diese App funktioniert nur mit aktiviertem JavaScript.</p>
+    </div>
+  </noscript>
 </body>
 </html>
